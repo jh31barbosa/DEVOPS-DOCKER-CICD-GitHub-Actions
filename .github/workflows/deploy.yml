@@ -27,7 +27,7 @@ jobs:
             DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
             DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         run:
-            docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD 
+            docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD  --password-stdin
             
             docker push jhbm/tmaior-test:latest
           
