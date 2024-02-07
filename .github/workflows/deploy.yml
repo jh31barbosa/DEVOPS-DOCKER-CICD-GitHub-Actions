@@ -23,12 +23,14 @@ jobs:
         run: docker tag tmaior-test jhbm/tmaior-test:latest
 
       - name: Push Docker Img
-        run: |
-          echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" 
-          docker push jhbm/tmaior-test:latest
         env:
-          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+            DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+            DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        run:
+            docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD 
+            
+            docker push jhbm/tmaior-test:latest
+          
 
   deploy:
     runs-on: ubuntu-latest
