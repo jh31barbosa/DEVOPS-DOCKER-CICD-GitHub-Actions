@@ -9,7 +9,7 @@ jobs:
 
   build:
 
-    
+
     runs-on: ubuntu-latest
 
     steps:
@@ -20,12 +20,12 @@ jobs:
         run: |
           docker build -t tmaior-test .
       - name: Tag Docker Image
-        run: docker tag tmaior-test:latest
+        run: docker tag tmaior-test jhbm/tmaior-test:latest
 
       - name: Push Docker Img
         run: |
           echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-          docker push tmaior-test:latest
+          docker push jhbm/tmaior-test:latest
         env:
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
@@ -43,4 +43,4 @@ jobs:
           script: |
             docker stop $(docker ps -q)
             docker pull tmaior-test:latest
-            docker run -d -p 3000:3000 tmaior-test:latest
+            docker run -d -p 3000:3000 jhbm/tmaior-test:latest
