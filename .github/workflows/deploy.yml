@@ -1,0 +1,46 @@
+name: Docker Build
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+
+
+  build:
+
+    
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Build Docker Img
+        run: |
+          docker build -t tmaior-test .
+      - name: Tag Docker Image
+        run: docker tag tmaior-test:latest
+
+      - name: Push Docker Img
+        run: |
+          echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+          docker push tmaior-test:latest
+        env:
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: SSH into EC2
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            docker stop $(docker ps -q)
+            docker pull tmaior-test:latest
+            docker run -d -p 3000:3000 tmaior-test:latest
