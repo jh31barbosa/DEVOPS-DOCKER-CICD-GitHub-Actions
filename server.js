@@ -56,6 +56,8 @@ app.post('/messages', async (req, res) => {
 })
 
 
+// Nova feature - Respostas automáticas
+//Início
 io.on('connection', (socket) => {
   console.log('a user is connected');
 
@@ -64,7 +66,7 @@ io.on('connection', (socket) => {
     const autoResponses = {
       'olá': 'Olá! Como posso ajudar?',
       'tudo bem?': 'Tudo ótimo, e você?',
-      // Adicione mais respostas automáticas conforme necessário
+      'Bom dia!':  'Bom dia! Como posso ajudá-lo hoje',
     };
 
     const response = autoResponses[message.toLowerCase()];
@@ -86,6 +88,8 @@ io.on('connection', (socket) => {
     sendAutoResponse(message.message);
   });
 });
+//Fim
+
 
 mongoose.connect(dbUrl ,{useNewUrlParser : true }, (err) => {
   console.log('mongodb connected',err);
