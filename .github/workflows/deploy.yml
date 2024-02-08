@@ -44,5 +44,5 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           script: |
             docker stop $(docker ps -q)
-            docker pull tmaior-test:latest
-            docker run -d -p 3000:3000 jhbm/tmaior-test:latest
+            docker pull jhbm/tmaior-test:latest
+            docker run -d -p 5000:5000 jhbm/tmaior-test:latest
