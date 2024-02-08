@@ -65,6 +65,6 @@ mongoose.connect(dbUrl ,{useNewUrlParser : true }, (err) => {
   console.log('mongodb connected',err);
 })
 
-var server = http.listen(3000, () => {
+var server = http.listen(5000, () => {
   console.log('server is running on port', server.address().port);
 });

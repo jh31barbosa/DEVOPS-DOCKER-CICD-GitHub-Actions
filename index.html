@@ -41,13 +41,13 @@
     }
 
     function getMessages(){
-      $.get('http://54.88.244.203:3000/messages', (data) => {
+      $.get('http://54.88.244.203:5000/messages', (data) => {
         data.forEach(addMessages);
       })
     }
 
     function sendMessage(message){
-      $.post('http://54.88.244.203:3000/messages', message)
+      $.post('http://54.88.244.203:5000/messages', message)
     }
 </script>
 </body>
