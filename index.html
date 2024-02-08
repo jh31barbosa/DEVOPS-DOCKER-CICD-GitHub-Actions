@@ -12,11 +12,11 @@
 <div class="container">
     <br>
     <div class="jumbotron">
-        <h1 class="display-4">Message</h1>
+        <h1 class="display-4">Send Message</h1>
         <br>
-        <input id = "name" class="form-control" placeholder="Name">
+        <input id="name" class="form-control" placeholder="Name">
         <br>
-        <textarea id = "message" class="form-control" placeholder="Your Message Here"></textarea>
+        <textarea id="message" class="form-control" placeholder="Your Message Here"></textarea>
         <br>
         <button id="send" class="btn btn-success">Send</button>
     </div>
@@ -25,29 +25,43 @@
     </div>
 </div>
 <script>
-   var socket = io();
+    var socket = io();
     $(() => {
-        $("#send").click(()=>{
-            sendMessage({name: $("#name").val(), message: $("#message").val()});
-        })
+        $("#send").click(() => {
+            sendMessage({ name: $("#name").val(), message: $("#message").val() });
+        });
 
-        getMessages()
-    })
+        getMessages();
+    });
 
-    socket.on('message', addMessages)
+    socket.on('message', addMessages);
 
-    function addMessages(message){
-        $("#messages").append(`<h4> ${message.name} </h4> <p> ${message.message} </p>`)
+    function addMessages(message) {
+        $("#messages").append(`<h4> ${message.name} </h4> <p> ${message.message} </p>`);
+
+        // Adicionando lógica de resposta automática
+        const autoResponses = {
+            'olá': 'Olá! Como posso ajudar?',
+            'tudo bem?': 'Tudo ótimo, e você?',
+            // Adicione mais respostas automáticas conforme necessário
+        };
+
+        const response = autoResponses[message.message.toLowerCase()];
+        if (response) {
+            setTimeout(() => {
+                $("#messages").append(`<h4> ChatBot </h4> <p> ${response} </p>`);
+            }, 1000); // Espera 1 segundo antes de enviar a resposta automática
+        }
     }
 
-    function getMessages(){
-      $.get('http://52.87.245.107:5000/messages', (data) => {
-        data.forEach(addMessages);
-      })
+    function getMessages() {
+        $.get('http://52.87.245.107:5000/messages', (data) => {
+            data.forEach(addMessages);
+        });
     }
 
-    function sendMessage(message){
-      $.post('http://52.87.245.107:5000/messages', message)
+    function sendMessage(message) {
+        $.post('http://52.87.245.107:5000/messages', message);
     }
 </script>
 </body>
