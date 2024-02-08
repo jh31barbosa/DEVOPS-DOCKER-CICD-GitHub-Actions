@@ -5,13 +5,8 @@ on:
     branches: ["main"]
 
 jobs:
-
-
   build:
-
-
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
@@ -19,6 +14,7 @@ jobs:
       - name: Build Docker Img
         run: |
           docker build -t tmaior-test .
+
       - name: Tag Docker Image
         run: docker tag tmaior-test jhbm/tmaior-test:latest
 
@@ -34,7 +30,7 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
-
+    needs: build
     steps:
       - name: connect EC2 to Githubactions
         uses: appleboy/ssh-action@master
