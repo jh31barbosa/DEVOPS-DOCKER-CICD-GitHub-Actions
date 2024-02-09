@@ -4,7 +4,7 @@ var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var mongoose = require('mongoose');
-//var { sendAutoResponse } = require('./autoResponses');
+var { sendAutoResponse } = require('./autoResponses');
 
 app.use(express.static(__dirname));
 app.use(bodyParser.json());
