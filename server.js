@@ -66,7 +66,7 @@ io.on('connection', (socket) => {
     const autoResponses = {
       'olá': 'Olá! Como posso ajudar?',
       'tudo bem?': 'Tudo ótimo, e você?',
-      'Bom dia!':  'Bom dia! Como posso ajudá-lo hoje',
+      // Adicione mais respostas automáticas conforme necessário
     };
 
     const response = autoResponses[message.toLowerCase()];
@@ -88,6 +88,7 @@ io.on('connection', (socket) => {
     sendAutoResponse(message.message);
   });
 });
+
 //Fim
 
 

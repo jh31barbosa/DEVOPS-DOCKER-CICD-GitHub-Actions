@@ -41,15 +41,14 @@
 
         // Adicionando lógica de resposta automática
         const autoResponses = {
-            'olá': (name) => 'Olá, ${name}! Como posso ajudar?',
-            'tudo bem?': (name) => 'Tudo ótimo, ${name} e você?',
-            'bom dia': (name) => 'bom dia, ${name}! Como posso ajudá-lo hoje?' 
+            'olá': 'Olá! Como posso ajudar?',
+            'tudo bem?': 'Tudo ótimo, e você?',
+            // Adicione mais respostas automáticas conforme necessário
         };
 
-        const responseFunc = autoResponses[message.message.toLowerCase()];
-        if (responseFunc) {
+        const response = autoResponses[message.message.toLowerCase()];
+        if (response) {
             setTimeout(() => {
-                const response = responseFunc(message.name);
                 $("#messages").append(`<h4> ChatBot </h4> <p> ${response} </p>`);
             }, 1000); // Espera 1 segundo antes de enviar a resposta automática
         }
