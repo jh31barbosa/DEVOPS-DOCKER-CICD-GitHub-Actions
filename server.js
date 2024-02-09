@@ -32,7 +32,7 @@ app.get('/messages/:user', (req, res) => {
 })
 
 // Importando as funcionalidades de respostas automáticas do novo local
-var { sendAutoResponse } = require('./new feature/autoResponses');
+var { sendAutoResponse } = require('./autoResponses');
 
 app.post('/messages', async (req, res) => {
   try{
