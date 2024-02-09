@@ -31,28 +31,34 @@ app.get('/messages/:user', (req, res) => {
 })
 
 
+// Alteração na função de tratamento de mensagens POST
 app.post('/messages', async (req, res) => {
-  try{
+  try {
     var message = new Message(req.body);
 
-    var savedMessage = await message.save()
+    // Verificar se a mensagem é uma resposta automática e salvá-la no banco de dados
+    if (req.body.name === 'ChatBot') {
+      console.log('Mensagem automática recebida:', req.body.message);
+      var autoResponse = new Message({ name: req.body.name, message: req.body.message });
+      await autoResponse.save();
+    } else {
+      // Se não for uma resposta automática, salvar a mensagem normalmente
+      var savedMessage = await message.save();
       console.log('saved');
+    }
 
-    var censored = await Message.findOne({message:'badword'});
-      if(censored)
-        await Message.remove({_id: censored.id})
-      else
-        io.emit('message', req.body);
-      res.sendStatus(200);
-  }
-  catch (error){
+    var censored = await Message.findOne({ message: 'badword' });
+    if (censored)
+      await Message.remove({ _id: censored.id });
+    else
+      io.emit('message', req.body);
+    res.sendStatus(200);
+  } catch (error) {
     res.sendStatus(500);
-    return console.log('error',error);
+    return console.log('error', error);
+  } finally {
+    console.log('Message Posted');
   }
-  finally{
-    console.log('Message Posted')
-  }
-
 })
 
 
