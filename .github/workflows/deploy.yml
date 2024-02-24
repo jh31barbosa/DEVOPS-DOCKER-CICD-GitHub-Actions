@@ -13,10 +13,10 @@ jobs:
 
       - name: Build Docker Img
         run: |
-          docker build -t tmaior-test .
+          docker build -t <container-name> .
 
       - name: Tag Docker Image
-        run: docker tag tmaior-test jhbm/tmaior-test:latest
+        run: docker tag <container-name> jhbm/<container-name>:latest
 
       - name: Push Docker Img
         env:
@@ -25,7 +25,7 @@ jobs:
         run:
             echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
             
-            docker push jhbm/tmaior-test:latest
+            docker push jhbm/<container-name>:latest
           
 
   deploy:
@@ -40,5 +40,5 @@ jobs:
           key: ${{ secrets.EC2_PRIVATE_KEY }}
           script: |
             docker stop $(docker ps -q)
-            docker pull jhbm/tmaior-test:latest
-            docker run -d -p 5000:5000 jhbm/tmaior-test:latest
+            docker pull jhbm/<container-name>:latest
+            docker run -d -p 5000:5000 jhbm/<container-name>:latest
